@@ -54,7 +54,7 @@ void roundRobin()
         //cin >> arrival;
         cout <<"Enter Burst Time For Process P" <<i+1<<" : " ;
         cin >> burst;
-        obj[i].setData(i+1,count,burst,burst);
+        obj[i].setData(i+1,0,burst,burst);
         count++;
     }
     cout <<"Enter Quantam Time : ";
@@ -104,7 +104,7 @@ void roundRobin()
         {
             cout << "P" << temp.processID <<"\t"<< temp.remaining << "\t" << temp.wait-temp.remaining <<"\t\t" << temp.wait << endl;
             totalTurn+=temp.wait;
-            totalWait+=temp.wait-temp.remaining;
+            totalWait=totalWait + (temp.wait-temp.remaining);
         }
         data.pop();
     }
@@ -151,7 +151,7 @@ int main() {
             //Exit Program
             return 0;
         }
-        cout <<"Do you want to continue ? (Y/N)";
+        cout <<"\n\nDo you want to continue ? (Y/N)";
         cin >> ch;
     }
     return 0;
