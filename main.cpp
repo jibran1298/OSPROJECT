@@ -40,10 +40,7 @@ class Process
         return burstTime;
     }
 };
-void hello()
-{
-    
-}
+
 int getPro()
 {
     pid_t cpid;
@@ -73,7 +70,7 @@ void roundRobin()
     for(int i =0;i<num;i++)
     {
         int burst;
-        burst = rand() % 16;
+        burst = (rand() % 16)+3;
         obj[i].setData(dat,0,burst,burst);
         count++;
         dat+=3;
@@ -143,6 +140,66 @@ void roundRobin()
     cout << endl;
 
 }
+
+
+
+void segmentation()
+{
+    int numOfSegments, baseAddress[20], limitRegister[20], logicalAddress, sizeOfSegment[20], memoryUnit = 5000, physicalAddress, segmentNumber;
+    char ch = 'y';
+	cout << "Enter the Number of Segments: ";
+	cin >> numOfSegments;
+	cout << endl << endl;
+	for (int i = 0; i < numOfSegments; i++)
+	{
+                system("clear");
+		cout << "Enter Base Address for Segment " << i + 1 << ": ";
+		cin >> baseAddress[i];
+		cout << "Enter Limit Register for Segment " << i + 1 << ": ";
+		cin >> limitRegister[i];
+	}
+        
+	
+	while(ch=='y'||ch=='Y')
+        {
+            system("clear");
+            cout << "\nEnter the Logical Address: ";
+            cin >> logicalAddress;
+            cout << "\n---------------Segment Table ------------------\n";
+            cout << "Segment # " <<"\t"<<"Base Address" <<"\tLimit Register\n";
+            for(int i =0;i<numOfSegments;i++)
+            {
+                cout << i+1 <<"\t\t" << baseAddress[i] <<"\t\t" << limitRegister[i] << endl;
+            }
+            cout << "\nEnter Segment No: ";
+            cin >> segmentNumber;
+            if (baseAddress[segmentNumber - 1] > memoryUnit)
+            {
+                cout << " Invalid Memory Limit.\n";
+            }
+            else
+            {
+                if (logicalAddress < limitRegister[segmentNumber - 1])
+                    {
+                        physicalAddress = logicalAddress + baseAddress[segmentNumber - 1];
+                        cout << "\nSegment No \tBase Address \tPhysical Address\n";
+                        cout  << segmentNumber;
+                        cout << "\t\t" << baseAddress[segmentNumber - 1];
+                        cout << "\t\t" << physicalAddress << endl;
+                    }
+                        
+                else if (segmentNumber > numOfSegments)
+                    cout << "Invalid Segment Number. Does not Exist.\n";
+                else
+                    {
+                        cout << "Error :  Invalid Logical Address. Size exceeded.\n";
+                    }
+            }
+            
+            cout <<"\n\nContinue ? (Y/N)";
+            cin >> ch;
+        }		
+}
 int main() {
 
     char ch='y';
@@ -166,6 +223,7 @@ int main() {
         {
             //Segmentation
             cout <<"Segmentation \n";
+            segmentation();
         }
         else
         {
