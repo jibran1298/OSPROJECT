@@ -1,7 +1,11 @@
-
+#include <stdio.h>
+#include <sys/types.h>
+#include <unistd.h>
 #include<iostream>
 #include <stdlib.h> // For System
 #include <queue>
+#include <signal.h>
+int pid[100];
 using namespace std;
 class Process
 {
@@ -37,25 +41,49 @@ class Process
         return burstTime;
     }
 };
+void hello()
+{
+    
+}
+int getPro()
+{
+    pid_t cpid;
+    pid_t ppid;
+    
+
+    if ((cpid = fork()) == 0)
+    {
+        int x = getpid();
+       
+        ppid = getpid();
+        kill(ppid, SIGUSR1);
+        return x;
+    }
+}
 void roundRobin()
 {
+    
     int num;
+    int dat[100];
     int quantam;
     int count = 0;
     Process *obj;
     cout <<"Enter Number of Processes : ";
     cin >> num;
+     
     obj = new Process[num];
     for(int i =0;i<num;i++)
     {
+        dat[i] = getPro();
+    }
+    for(int i =0;i<num;i++)
+    {
         int burst;
-        int arrival;
-        //cout <<"Enter Arrival Time For Process P" <<i+1<<" : ";
-        //cin >> arrival;
-        cout <<"Enter Burst Time For Process P" <<i+1<<" : " ;
-        cin >> burst;
-        obj[i].setData(i+1,0,burst,burst);
+        burst = rand() % 20;
+       
+        obj[i].setData(dat[i],0,burst,burst);
         count++;
+        
     }
     cout <<"Enter Quantam Time : ";
     cin >> quantam;
@@ -116,7 +144,7 @@ void roundRobin()
     while(!gant.empty())
     {
         Process temp = gant.front();
-        cout << "[P" << temp.processID << "]\t";
+        cout << "[P" << temp.processID << "] - ";
         gant.pop();
     }
     cout << endl;
