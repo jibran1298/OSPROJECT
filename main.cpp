@@ -5,7 +5,6 @@
 #include <stdlib.h> // For System
 #include <queue>
 #include <signal.h>
-int pid[100];
 using namespace std;
 class Process
 {
@@ -62,28 +61,22 @@ int getPro()
 }
 void roundRobin()
 {
-    
     int num;
-    int dat[100];
+    int dat;
     int quantam;
     int count = 0;
     Process *obj;
     cout <<"Enter Number of Processes : ";
     cin >> num;
-     
     obj = new Process[num];
-    for(int i =0;i<num;i++)
-    {
-        dat[i] = getPro();
-    }
+    dat = getPro();
     for(int i =0;i<num;i++)
     {
         int burst;
-        burst = rand() % 20;
-       
-        obj[i].setData(dat[i],0,burst,burst);
+        burst = rand() % 16;
+        obj[i].setData(dat,0,burst,burst);
         count++;
-        
+        dat+=3;
     }
     cout <<"Enter Quantam Time : ";
     cin >> quantam;
@@ -122,9 +115,9 @@ void roundRobin()
         gant.push(temp);
     }
     queue <Process> data = gant;
-    cout << "Process\tBurst \tWaiting \tTurnaround \n";
-   int totalWait=0;
-   int  totalTurn=0;
+    cout << "\nProcess\tBurst \tWaiting \tTurnaround \n";
+   float totalWait=0;
+   float  totalTurn=0;
     while(!data.empty())
     {
         Process temp = data.front();
